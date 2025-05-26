@@ -19,9 +19,24 @@ app.get('/', (req, res) => {
 });
 
 // Aquí irá nuestra ruta para Instagram
+// Ruta para obtener posts de Instagram
 app.get('/api/instagram', async (req, res) => {
-    // Por ahora solo una respuesta de prueba
-    res.json({ mensaje: 'Ruta de Instagram lista' });
+    try {
+        const token = process.env.INSTAGRAM_TOKEN;
+        const instagramUrl = `https://graph.instagram.com/me/media?fields=thumbnail_url,media_type,media_url,caption,permalink,username,id&limit=4&access_token=${token}`;
+        
+        const response = await fetch(instagramUrl);
+        const data = await response.json();
+        
+        if (data.error) {
+            return res.status(400).json({ error: data.error });
+        }
+        
+        res.json(data);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Error al obtener datos de Instagram' });
+    }
 });
 
 app.listen(PORT, () => {
