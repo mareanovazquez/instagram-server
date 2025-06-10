@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 app.get('/api/instagram', async (req, res) => {
     try {
         const token = process.env.INSTAGRAM_TOKEN;
-        const instagramUrl = `https://graph.instagram.com/me/media?fields=thumbnail_url,media_type,media_url,caption,permalink,username,id&limit=4&access_token=${token}`;
+        const instagramUrl = `https://graph.instagram.com/me/media?fields=thumbnail_url,media_type,media_url,caption,permalink,username,id&limit=6&access_token=${token}`;
         
         const response = await fetch(instagramUrl);
         const data = await response.json();
